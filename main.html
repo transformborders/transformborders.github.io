@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Theory and Combinatorics | Sachal Abdullah</title>
+    <meta name="description" content="Graph theory and combinatorics notes by Sachal Abdullah: graphs, paths, cycles, Hamiltonian graphs, counting, binomial coefficients, permutations, the pigeonhole principle, and inclusion-exclusion.">
+    <meta name="author" content="Sachal Abdullah">
+    <link rel="canonical" href="https://sachal-abdullah.github.io/graph-theory/">
+    <meta property="og:title" content="Graph Theory and Combinatorics | Sachal Abdullah">
+    <meta property="og:description" content="Definitions and notes on graph theory and combinatorics, including counting, binomial coefficients, permutations, the pigeonhole principle, and inclusion-exclusion.">
+    <meta property="og:url" content="https://sachal-abdullah.github.io/graph-theory/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Sachal Abdullah">
+    <meta property="og:image" content="https://sachal-abdullah.github.io/assets/images/profile.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Graph Theory and Combinatorics | Sachal Abdullah">
+    <meta name="twitter:description" content="Definitions and notes on graph theory and combinatorics, including counting, binomial coefficients, permutations, the pigeonhole principle, and inclusion-exclusion.">
+    <meta name="twitter:image" content="https://sachal-abdullah.github.io/assets/images/profile.jpg">
+    <link rel="stylesheet" href="/assets/main.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Graph Theory and Combinatorics",
+      "description": "Definitions and notes in graph theory and combinatorics.",
+      "author": {
+        "@type": "Person",
+        "@id": "https://sachal-abdullah.github.io/#person",
+        "name": "Sachal Abdullah",
+        "url": "https://sachal-abdullah.github.io/"
+      },
+      "mainEntityOfPage": "https://sachal-abdullah.github.io/graph-theory/",
+      "about": ["Graph theory", "Combinatorics", "Hamiltonian cycles", "Graph isomorphism", "Graph automorphisms", "Binomial coefficients", "Inclusion-exclusion"]
+    }
+    </script>
+
+    <script>
+    window.MathJax = {
+        tex: {
+            inlineMath: [['\\(', '\\)']],
+            displayMath: [['\\[', '\\]']]
+        }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+    <a class="site-id" href="/">Sachal Abdullah</a>
+    <nav class="site-nav" aria-label="Site">
+        <a href="/research/">Research</a>
+        <a href="/publications/">Publications</a>
+        <a href="/mathematics/" aria-current="page">Notes</a>
+        <a href="/graph-theory-art-gallery/">Gallery</a>
+        <a href="/tutoring/">Teaching</a>
+        <a href="/portfolio/">Portfolio</a>
+        <a href="/contact/">Contact</a>
+    </nav>
+</header>
+
+<article>
+<div class="hero">
+    <h1>Graph Theory and Combinatorics</h1>
+</div>
+
+<div class="content">
+
+    <details open>
+        <summary>1. Graph, multigraph, subgraph</summary>
+        <dl class="def-list">
+            <dt>Graph</dt>
+            <dd>
+                A finite undirected <strong>graph</strong> \(G=(V,E)\) consists
+                of a vertex set \(V\) and an edge set \(E\). In a
+                <strong>simple graph</strong>, each edge is a two-element subset
+                of \(V\), so loops and parallel edges are excluded. The
+                <strong>order</strong> is \(|V|\); the <strong>size</strong> is
+                \(|E|\).
+            </dd>
+            <dt>Multigraph</dt>
+            <dd>
+                A <strong>multigraph</strong> may have more than one edge with the
+                same pair of ends. The parallel edges remain distinct.
+            </dd>
+            <dt>Subgraph</dt>
+            <dd>
+                \(H=(V_H,E_H)\) is a <strong>subgraph</strong> of \(G=(V,E)\) if
+                \(V_H\subseteq V\), \(E_H\subseteq E\), and every edge in
+                \(E_H\) has both ends in \(V_H\).
+            </dd>
+            <dt>Induced and spanning</dt>
+            <dd>
+                For \(S\subseteq V\), the <strong>induced subgraph</strong>
+                \(G[S]\) contains \(S\) and every edge of \(G\) whose ends both
+                lie in \(S\). A subgraph is <strong>spanning</strong> if its
+                vertex set is all of \(V\).
+            </dd>
+            <dt>Adjacent and incident</dt>
+            <dd>
+                Two vertices are <strong>adjacent</strong> if an edge joins
+                them. A vertex and edge are <strong>incident</strong> if the
+                vertex is one of the edge's ends.
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>2. Degree and regular graphs</summary>
+        <dl class="def-list">
+            <dt>Neighbourhood</dt>
+            <dd>
+                The <strong>neighbourhood</strong> \(N(v)\) is the set of
+                vertices adjacent to \(v\). For \(S\subseteq V\),
+                \(N(S)=\bigcup_{v\in S}N(v)\).
+            </dd>
+            <dt>Degree</dt>
+            <dd>
+                The <strong>degree</strong> \(d(v)\) is the number of edges
+                incident with \(v\). In a simple graph, \(d(v)=|N(v)|\). The
+                handshaking lemma states
+                \(\sum_{v\in V}d(v)=2|E|\).
+            </dd>
+            <dt>Regular graph</dt>
+            <dd>
+                A graph is <strong>r-regular</strong> if every vertex has degree
+                \(r\). A 3-regular graph is <strong>cubic</strong>.
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>3. Walk, trail, path, circuit, cycle</summary>
+        <dl class="def-list">
+            <dt>Walk</dt>
+            <dd>
+                A <strong>walk</strong> of length \(k\) is a sequence of vertices
+                \(v_0,v_1,\ldots,v_k\) such that consecutive vertices are joined
+                by an edge. Vertices and edges may repeat.
+            </dd>
+            <dt>Trail</dt>
+            <dd>
+                A <strong>trail</strong> is a walk with no repeated edge.
+            </dd>
+            <dt>Path</dt>
+            <dd>
+                A <strong>path</strong> is a walk with no repeated vertex.
+            </dd>
+            <dt>Closed walk / closed trail</dt>
+            <dd>
+                A walk or trail is <strong>closed</strong> if its first and last
+                vertices are equal.
+            </dd>
+            <dt>Cycle</dt>
+            <dd>
+                A <strong>cycle</strong> is a closed walk whose
+                vertices are distinct except that the first and last coincide.
+                In a simple graph its length is at least 3.
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>4. Connected graphs</summary>
+        <dl class="def-list">
+            <dt>Connected</dt>
+            <dd>
+                A graph is <strong>connected</strong> if every pair of vertices
+                can be joined by a path. A <strong>connected component</strong> is
+                a maximal connected subgraph.
+            </dd>
+            <dt>Vertex-connectivity \( \kappa \)</dt>
+            <dd>
+                For a non-complete connected graph, \(\kappa(G)\) is the minimum
+                number of vertices whose deletion disconnects the graph. Set
+                \(\kappa(K_n)=n-1\). A graph is <strong>2-connected</strong> if
+                it has at least three vertices and remains connected after the
+                deletion of any one vertex; equivalently, it has no cut-vertex.
+            </dd>
+            <dt>Independent set</dt>
+            <dd>
+                A vertex set is <strong>independent</strong> if no two of its
+                vertices are adjacent. The maximum size of an independent set is
+                the <strong>independence number</strong> \(\alpha(G)\).
+            </dd>
+            <dt>Tree</dt>
+            <dd>
+                A <strong>tree</strong> is a connected acyclic graph. Equivalently,
+                it is a connected graph on \(n\) vertices with \(n-1\) edges, or
+                a graph in which every pair of vertices has a unique path.
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>5. Eulerian trail, circuit, graph</summary>
+        <dl class="def-list">
+            <dt>Eulerian trail</dt>
+            <dd>
+                A trail that contains every edge of the graph exactly once.
+            </dd>
+            <dt>Eulerian circuit</dt>
+            <dd>
+                A closed Eulerian trail: it starts and ends at the same vertex
+                and uses every edge exactly once.
+            </dd>
+            <dt>Eulerian graph</dt>
+            <dd>
+                A connected graph with at least one edge that has an Eulerian
+                circuit.
+            </dd>
+            <dt>Euler's theorem (1736), circuits</dt>
+            <dd>
+                A connected graph with at least one edge has an Eulerian circuit
+                if and only if every vertex has even degree.
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>6. Hamiltonian and uniquely Hamiltonian</summary>
+        <dl class="def-list">
+            <dt>Hamiltonian cycle</dt>
+            <dd>
+                A cycle containing every vertex of the graph. A graph containing
+                such a cycle is <strong>Hamiltonian</strong>.
+            </dd>
+            <dt>Hamiltonian path</dt>
+            <dd>
+                A path containing every vertex of the graph exactly once.
+            </dd>
+            <dt>Uniquely Hamiltonian graph</dt>
+            <dd>
+                A graph with exactly one Hamiltonian cycle, where cycles are
+                considered the same if they have the same edge set.
+            </dd>
+            <dt>Hypohamiltonian</dt>
+            <dd>
+                Non-Hamiltonian, but \( G - v \) is Hamiltonian for every vertex
+                \( v \). Fleischner's construction starts from a cubic
+                hypohamiltonian graph with a dominating cycle; Petersen is the
+                usual example.
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>7. Dominating cycle</summary>
+        <dl class="def-list">
+            <dt>Dominating cycle</dt>
+            <dd>
+                A vertex set \(D\) is a <strong>dominating set</strong> if every
+                vertex outside \(D\) has a neighbour in \(D\). A
+                <strong>dominating cycle</strong> is a cycle whose vertex set is
+                a dominating set.
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>8. Automorphisms and isomorphism</summary>
+        <dl class="def-list">
+            <dt>Graph automorphism</dt>
+            <dd>
+                An <strong>automorphism</strong> of \( G \) is a bijection
+                \( \varphi \colon V(G) \to V(G) \) such that, for all
+                \( u, v \in V(G) \),
+                \[
+                    uv \in E(G) \iff \varphi(u)\varphi(v) \in E(G).
+                \]
+                Thus \( \varphi \) preserves adjacency. The set of all
+                automorphisms is a group, written \( \mathrm{Aut}(G) \).
+            </dd>
+            <dt>Hamiltonian cycle under automorphism</dt>
+            <dd>
+                If \( C \) is a Hamiltonian cycle and
+                \( \varphi \in \mathrm{Aut}(G) \), the image
+                \( \varphi(C) \) is a Hamiltonian cycle with edge set
+                \( \{ \varphi(u)\varphi(v) : uv \in E(C) \} \). Two Hamiltonian
+                cycles may lie in the same \( \mathrm{Aut}(G) \)-orbit without
+                being equal as edge sets. Uniquely Hamiltonian means exactly one
+                Hamiltonian cycle as a subgraph, not uniqueness up to
+                automorphism.
+            </dd>
+            <dt>Isomorphism</dt>
+            <dd>
+                A bijection \( f \colon V(G) \to V(H) \) such that \( \{u,v\} \)
+                is an edge of \(G\) if and only if \( \{f(u), f(v)\} \) is an
+                edge of \(H\). Then \(G\) and \(H\) are isomorphic, written
+                \(G \cong H\).
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>9. Graph types</summary>
+        <dl class="def-list">
+            <dt>Complete graph \( K_n \)</dt>
+            <dd>
+                Every pair of distinct vertices is joined by exactly one edge.
+                \( K_n \) is \( (n-1) \)-regular and has \( \binom{n}{2} \) edges.
+            </dd>
+            <dt>Path graph \( P_n \)</dt>
+            <dd>
+                A path on \( n \) vertices (\( n-1 \) edges).
+            </dd>
+            <dt>Bipartite graph</dt>
+            <dd>
+                The vertex set splits as \( V = A \cup B \) with
+                \( A \cap B = \emptyset \), and every edge has one end in \( A \)
+                and one end in \( B \). Equivalently, \( G \) contains no odd
+                cycle.
+            </dd>
+            <dt>Complete bipartite graph \( K_{s,t} \)</dt>
+            <dd>
+                Every vertex of a part of size \( s \) is joined to every vertex
+                of a part of size \( t \). The graph \( K_{1,n} \) is a star.
+            </dd>
+            <dt>Complement \( \overline{G} \)</dt>
+            <dd>
+                Same vertex set as \( G \); two distinct vertices are adjacent in
+                \( \overline{G} \) if and only if they are not adjacent in
+                \( G \). (Defined for simple graphs.)
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>10. Sets, subsets, and binomial coefficients</summary>
+        <dl class="def-list">
+            <dt>Power set</dt>
+            <dd>
+                The power set \(\mathcal{P}(X)\) is the set of all subsets of
+                \(X\). If \(|X|=n\), then \(|\mathcal{P}(X)|=2^n\).
+            </dd>
+            <dt>Binomial coefficient</dt>
+            <dd>
+                For integers \(n\ge 0\) and \(0\le k\le n\),
+                \(\binom{n}{k}\) is the number of \(k\)-element subsets of an
+                \(n\)-element set:
+                <span class="formula">\[
+                    \binom{n}{k}=\frac{n!}{k!(n-k)!}.
+                \]</span>
+                By convention, \(\binom{n}{k}=0\) if \(k &lt; 0\) or \(k &gt; n\), and
+                \(\binom{n}{0}=\binom{n}{n}=1\).
+            </dd>
+            <dt>Pascal's identity</dt>
+            <dd>
+                A \(k\)-element subset of \(\{1,\ldots,n\}\) either contains
+                \(n\) or does not:
+                <span class="formula">\[
+                    \binom{n}{k}=\binom{n-1}{k}+\binom{n-1}{k-1}.
+                \]</span>
+            </dd>
+            <dt>Binomial theorem</dt>
+            <dd>
+                For a non-negative integer \(n\),
+                <span class="formula">\[
+                    (x+y)^n=\sum_{k=0}^{n}\binom{n}{k}x^{n-k}y^k.
+                \]</span>
+                In particular, \(\sum_{k=0}^{n}\binom{n}{k}=2^n\).
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>11. Permutations and combinations</summary>
+        <dl class="def-list">
+            <dt>Permutation</dt>
+            <dd>
+                An ordered arrangement of \(n\) distinct objects. There are
+                \(n!\) such arrangements. The number of injective maps from a
+                \(k\)-element set to an \(n\)-element set is
+                \(P(n,k)=n(n-1)\cdots(n-k+1)=n!/(n-k)!\).
+            </dd>
+            <dt>Combination</dt>
+            <dd>
+                An unordered selection. The number of ways to choose \(k\)
+                objects from \(n\) is \(\binom{n}{k}\), and
+                \(P(n,k)=k!\binom{n}{k}\).
+            </dd>
+            <dt>Selections with repetition</dt>
+            <dd>
+                The number of ways to choose \(k\) elements from \(n\) types,
+                with repetition allowed and order ignored, is
+                \(\binom{n+k-1}{k}\). This is also the number of non-negative
+                integer solutions of \(x_1+\cdots+x_n=k\).
+            </dd>
+            <dt>Multinomial coefficient</dt>
+            <dd>
+                The number of ways to partition \(n\) distinct objects into
+                labelled groups of sizes \(n_1,\ldots,n_r\), where
+                \(n_1+\cdots+n_r=n\), is
+                \(\frac{n!}{n_1!\cdots n_r!}\).
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>12. Pigeonhole principle</summary>
+        <dl class="def-list">
+            <dt>Pigeonhole principle</dt>
+            <dd>
+                If \(n\) objects are placed in \(k\) boxes, some box contains
+                at least \(\lceil n/k\rceil\) objects. In particular, placing
+                \(n+1\) objects in \(n\) boxes puts at least two in the same
+                box.
+            </dd>
+        </dl>
+    </details>
+
+    <details>
+        <summary>13. Inclusion-exclusion</summary>
+        <dl class="def-list">
+            <dt>Two sets</dt>
+            <dd>
+                For finite sets \(A\) and \(B\),
+                <span class="formula">\[
+                    |A\cup B|=|A|+|B|-|A\cap B|.
+                \]</span>
+            </dd>
+            <dt>Finite families</dt>
+            <dd>
+                For finite sets \(A_1,\ldots,A_n\),
+                <span class="formula">\[
+                    \left|\bigcup_{i=1}^{n}A_i\right|
+                    =\sum_i|A_i|-\sum_{i\lt j}|A_i\cap A_j|
+                    +\sum_{i\lt j\lt k}|A_i\cap A_j\cap A_k|-\cdots
+                    +(-1)^{n+1}|A_1\cap\cdots\cap A_n|.
+                \]</span>
+                Intersections of an odd number of sets are added and those of
+                an even number are subtracted.
+            </dd>
+            <dt>Derangements</dt>
+            <dd>
+                A <strong>derangement</strong> is a permutation with no fixed
+                point. Inclusion-exclusion gives
+                <span class="formula">\[
+                    !n=n!\sum_{k=0}^{n}\frac{(-1)^k}{k!},
+                \]</span>
+                the integer nearest to \(n!/e\) for \(n\ge 1\).
+            </dd>
+        </dl>
+    </details>
+
+</div>
+</article>
+
+<footer class="site-footer">© 2026 Sachal Abdullah. All rights reserved.</footer>
+</body>
+</html>
